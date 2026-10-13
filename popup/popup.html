@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>CipherWA</title>
+    <link rel="stylesheet" href="popup.css" />
+  </head>
+  <body class="w-[360px] bg-zinc-50 text-[13px] text-zinc-900 antialiased dark:bg-zinc-950 dark:text-zinc-100">
+    <header class="flex items-center gap-3 border-b border-zinc-200 px-4 py-3 dark:border-zinc-800">
+      <img src="../icons/icon48.png" alt="" class="size-8" />
+      <div class="min-w-0 flex-1">
+        <h1 class="text-sm font-semibold">CipherWA</h1>
+        <p id="status" class="truncate text-xs text-zinc-500 dark:text-zinc-400">Checking…</p>
+      </div>
+      <button id="open-wa" type="button" hidden class="rounded-lg bg-violet-600 px-3 py-1.5 text-xs font-semibold text-white hover:bg-violet-700">
+        Open WhatsApp Web
+      </button>
+      <button id="open-panel" type="button" hidden class="rounded-lg border border-zinc-300 px-3 py-1.5 text-xs font-semibold hover:bg-zinc-100 dark:border-zinc-700 dark:hover:bg-zinc-800">
+        Tools drawer
+      </button>
+    </header>
+
+    <main class="space-y-3 p-3">
+      <section>
+        <h2 class="mb-1 px-1 text-xs font-semibold uppercase tracking-wide text-zinc-500 dark:text-zinc-400">Privacy blur</h2>
+        <div class="divide-y divide-zinc-100 rounded-xl border border-zinc-200 bg-white dark:divide-zinc-800 dark:border-zinc-800 dark:bg-zinc-900">
+          <div data-toggles="blur" class="divide-y divide-zinc-100 dark:divide-zinc-800"></div>
+          <label class="flex items-center justify-between gap-3 px-3 py-2.5">
+            <span class="font-medium">Blur strength</span>
+            <input id="blur-strength" type="range" min="2" max="20" step="1" class="w-36 accent-violet-600" />
+          </label>
+        </div>
+      </section>
+
+      <section>
+        <h2 class="mb-1 px-1 text-xs font-semibold uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
+          Stealth <span class="ml-1 rounded bg-amber-100 px-1.5 py-0.5 text-[10px] normal-case tracking-normal text-amber-800 dark:bg-amber-900/40 dark:text-amber-300">experimental</span>
+        </h2>
+        <div data-toggles="stealth" class="divide-y divide-zinc-100 rounded-xl border border-zinc-200 bg-white dark:divide-zinc-800 dark:border-zinc-800 dark:bg-zinc-900"></div>
+      </section>
+
+      <section>
+        <h2 class="mb-1 px-1 text-xs font-semibold uppercase tracking-wide text-zinc-500 dark:text-zinc-400">Tools</h2>
+        <div class="divide-y divide-zinc-100 rounded-xl border border-zinc-200 bg-white dark:divide-zinc-800 dark:border-zinc-800 dark:bg-zinc-900">
+          <div data-toggles="tools"></div>
+          <form id="quick-chat" class="space-y-2 px-3 py-2.5">
+            <label for="phone" class="block font-medium">Chat with an unsaved number</label>
+            <div class="flex gap-2">
+              <input id="phone" type="tel" autocomplete="off" placeholder="+44 7700 900123" class="min-w-0 flex-1 rounded-lg border border-zinc-300 bg-white px-2.5 py-1.5 outline-none focus:border-violet-500 focus:ring-2 focus:ring-violet-200 dark:border-zinc-700 dark:bg-zinc-950 dark:focus:ring-violet-900" />
+              <button type="submit" class="rounded-lg bg-violet-600 px-3 py-1.5 font-semibold text-white hover:bg-violet-700">Open</button>
+            </div>
+            <p id="phone-error" hidden class="text-xs text-red-600 dark:text-red-400">Enter the full international number, including the country code.</p>
+          </form>
+          <label class="flex items-center justify-between gap-3 px-3 py-2.5">
+            <span class="min-w-0">
+              <span class="block font-medium">Default country code</span>
+              <span class="block text-xs text-zinc-500 dark:text-zinc-400">Added to numbers typed with a leading 0</span>
+            </span>
+            <input id="country-code" type="text" inputmode="numeric" maxlength="4" placeholder="44" class="w-16 rounded-lg border border-zinc-300 bg-white px-2.5 py-1.5 text-right outline-none focus:border-violet-500 focus:ring-2 focus:ring-violet-200 dark:border-zinc-700 dark:bg-zinc-950 dark:focus:ring-violet-900" />
+          </label>
+        </div>
+      </section>
+    </main>
+
+    <footer class="px-4 pb-3 text-center text-[11px] text-zinc-400 dark:text-zinc-500">
+      Unofficial. Not affiliated with WhatsApp LLC or Meta.
+    </footer>
+
+    <template id="toggle-row">
+      <label class="flex cursor-pointer items-center justify-between gap-3 px-3 py-2.5">
+        <span class="min-w-0">
+          <span data-label class="block font-medium"></span>
+          <span data-hint class="block text-xs text-zinc-500 dark:text-zinc-400"></span>
+          <span data-warn hidden class="block text-xs text-amber-700 dark:text-amber-400"></span>
+        </span>
+        <input type="checkbox" role="switch" class="peer sr-only" />
+        <span class="relative h-5 w-9 shrink-0 rounded-full bg-zinc-300 transition-colors after:absolute after:top-0.5 after:left-0.5 after:size-4 after:rounded-full after:bg-white after:shadow after:transition-transform peer-checked:bg-violet-600 peer-checked:after:translate-x-4 peer-focus-visible:ring-2 peer-focus-visible:ring-violet-400 peer-focus-visible:ring-offset-2 dark:bg-zinc-700 dark:ring-offset-zinc-900"></span>
+      </label>
+    </template>
+
+    <script src="../shared/common.js"></script>
+    <script src="popup.js"></script>
+  </body>
+</html>

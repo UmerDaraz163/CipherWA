@@ -1,0 +1,4 @@
+/* Tailwind entry point. `npm run build` compiles it to popup.css, which is what ships. */
+@import 'tailwindcss' source(none);
+@source './popup.html';
+@source './popup.js';

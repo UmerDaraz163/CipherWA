@@ -1,0 +1,15 @@
+{
+  "name": "cipherwa",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Build tooling for the CipherWA Chrome extension. Only the popup stylesheet needs a build step.",
+  "scripts": {
+    "build": "tailwindcss -i popup/popup.src.css -o popup/popup.css --minify",
+    "watch": "tailwindcss -i popup/popup.src.css -o popup/popup.css --watch",
+    "package": "npm run build && rm -rf dist && mkdir dist && zip -r dist/cipherwa.zip manifest.json background.js shared content injected icons popup/popup.html popup/popup.js popup/popup.css"
+  },
+  "devDependencies": {
+    "@tailwindcss/cli": "^4.1.0",
+    "tailwindcss": "^4.1.0"
+  }
+}

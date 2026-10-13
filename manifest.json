@@ -1,0 +1,59 @@
+{
+  "manifest_version": 3,
+  "name": "CipherWA — Privacy & Productivity Toolkit",
+  "short_name": "CipherWA",
+  "version": "0.1.0",
+  "description": "Privacy blur, per-chat notes, quick replies and CSV export for WhatsApp Web. Unofficial; not affiliated with WhatsApp LLC.",
+  "minimum_chrome_version": "111",
+  "icons": {
+    "16": "icons/icon16.png",
+    "32": "icons/icon32.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "action": {
+    "default_title": "CipherWA",
+    "default_popup": "popup/popup.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "32": "icons/icon32.png"
+    }
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "permissions": ["storage", "scripting"],
+  "host_permissions": ["https://web.whatsapp.com/*"],
+  "content_scripts": [
+    {
+      "matches": ["https://web.whatsapp.com/*"],
+      "js": ["injected/page-hooks.js"],
+      "run_at": "document_start",
+      "world": "MAIN"
+    },
+    {
+      "matches": ["https://web.whatsapp.com/*"],
+      "css": ["content/content.css"],
+      "js": [
+        "shared/common.js",
+        "content/selectors.js",
+        "content/dom.js",
+        "content/privacy.js",
+        "content/whatsapp.js",
+        "content/panel.js",
+        "content/features/notes.js",
+        "content/features/replies.js",
+        "content/features/quickchat.js",
+        "content/features/export.js",
+        "content/content.js"
+      ],
+      "run_at": "document_start"
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": ["content/panel.css"],
+      "matches": ["https://web.whatsapp.com/*"]
+    }
+  ]
+}

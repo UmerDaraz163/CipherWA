@@ -1,0 +1,58 @@
+/*
+ * CipherWA page-level styles, injected at document_start so nothing is ever
+ * painted unblurred. content/privacy.js toggles the html.cwa-* classes.
+ *
+ * Selectors follow the same rules as content/selectors.js: ids, ARIA, `dir`,
+ * `data-*` and structure only. `.message-in` / `.message-out` are semantic
+ * (non-obfuscated) class names; a [data-id] fallback covers their removal.
+ *
+ * Reveal-on-hover works through inheritance: hovering a "scope" (a chat row,
+ * a message bubble, the chat header) sets --cwa-reveal on it, and every
+ * blurred descendant reads that variable. No specificity fights, and
+ * WhatsApp's own `filter` declarations are never overridden.
+ */
+
+:root {
+  --cwa-blur: 6px;
+}
+
+/* ---- Messages in the open chat ---------------------------------------- */
+html.cwa-blur-messages #main :is(.message-in, .message-out),
+html.cwa-blur-messages #main [data-id]:not(:has(.message-in, .message-out), :is(.message-in, .message-out) *),
+
+/* ---- Contact / group names: chat list rows and the open chat's header -- */
+html.cwa-blur-names #pane-side :is([role="listitem"], [role="row"]) [role="gridcell"][aria-colindex="2"] > :first-child,
+html.cwa-blur-names #main header span:is([dir="auto"], [title]),
+
+/* ---- Last-message preview: the line under the name --------------------- */
+html.cwa-blur-previews #pane-side :is([role="listitem"], [role="row"]) [role="gridcell"][aria-colindex="2"] + * > :first-child,
+html.cwa-blur-previews #pane-side :is([role="listitem"], [role="row"]) span[title]:not([role="gridcell"][aria-colindex="2"] *),
+
+/* ---- Profile pictures (emoji are <img data-plain-text>, keep them sharp) */
+html.cwa-blur-avatars img[src*="pps.whatsapp.net"],
+html.cwa-blur-avatars #pane-side img:not([data-plain-text], [src^="data:"]),
+html.cwa-blur-avatars #main header img:not([data-plain-text], [src^="data:"]),
+
+/* ---- Photos, videos, stickers and link thumbnails inside messages ------ */
+html.cwa-blur-media #main :is(.message-in, .message-out, [data-id]) :is(img:not([data-plain-text], .emoji), video, div[style*="background-image"]) {
+  filter: blur(var(--cwa-reveal, var(--cwa-blur))) !important;
+  transition: filter 0.15s ease;
+}
+
+/* ---- Reveal scopes ------------------------------------------------------ */
+html.cwa-reveal #pane-side :is([role="listitem"], [role="row"]):hover,
+html.cwa-reveal #main :is(.message-in, .message-out):hover,
+html.cwa-reveal #main [data-id]:not(:has(.message-in, .message-out)):hover,
+html.cwa-reveal #main header:hover,
+html.cwa-reveal img:hover {
+  --cwa-reveal: 0px;
+}
+
+/* ---- Host of the injected drawer (its UI lives in a shadow root) -------- */
+#cwa-root {
+  all: initial;
+  position: fixed;
+  top: 0;
+  right: 0;
+  z-index: 2147483000;
+}
